@@ -43,7 +43,13 @@ bool load_media() {
 }
 
 void close() {
-  return;
+  SDL_FreeSurface(g_hello_world);
+  g_hello_world = NULL;
+
+  SDL_DestroyWindow(g_window);
+  g_window = NULL;
+
+  SDL_Quit();
 }
 
 int main(int argc, char* args[]) {
