@@ -20,6 +20,8 @@ bool init() {
     if (g_window == NULL) {
       printf("Window creation failure: %s\n", SDL_GetError());
       result = false;
+    } else {
+      g_screen_surface = SDL_GetWindowSurface(g_window);
     }
   }
 
@@ -37,7 +39,6 @@ void close() {
 int main(int argc, char* args[]) {
   if (init()) {
     // Get window surface
-    g_screen_surface = SDL_GetWindowSurface(g_window);
 
     // Fill the surface white
     SDL_FillRect(g_screen_surface,
