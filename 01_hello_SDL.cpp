@@ -1,56 +1,59 @@
-/*This source code copyrighted by Lazy Foo' Productions (2004-2015)
-and may not be redistributed without written permission.*/
+#include "main.h"
 
-//Using SDL and standard IO
-#include <SDL2/SDL.h>
-#include <stdio.h>
+bool init() {
+  return true;
+}
 
-//Screen dimension constants
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+bool load_media() {
+  return true;
+}
 
-int main( int argc, char* args[] )
-{
-	//The window we'll be rendering to
-	SDL_Window* window = NULL;
+void close() {
+  return;
+}
 
-	//The surface contained by the window
-	SDL_Surface* screenSurface = NULL;
+int main(int argc, char* args[]) {
+  // The window we'll be rendering to
+  SDL_Window* window = NULL;
 
-	//Initialize SDL
-	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
-	{
-		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
-	}
-	else
-	{
-		//Create window
-		window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
-		if( window == NULL )
-		{
-			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
-		}
-		else
-		{
-			//Get window surface
-			screenSurface = SDL_GetWindowSurface( window );
+  // The surface contained by the window
+  SDL_Surface* screenSurface = NULL;
 
-			//Fill the surface white
-			SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
+  // Initialize SDL
+  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+  } else {
+    // Create window
+    window = SDL_CreateWindow("SDL Tutorial",
+			      SDL_WINDOWPOS_UNDEFINED,
+			      SDL_WINDOWPOS_UNDEFINED,
+			      SCREEN_WIDTH,
+			      SCREEN_HEIGHT,
+			      SDL_WINDOW_SHOWN);
+    if (window == NULL) {
+      printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+    } else {
+      // Get window surface
+      screenSurface = SDL_GetWindowSurface(window);
 
-			//Update the surface
-			SDL_UpdateWindowSurface( window );
+      // Fill the surface white
+      SDL_FillRect(screenSurface,
+		   NULL,
+		   SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
 
-			//Wait two seconds
-			SDL_Delay( 2000 );
-		}
-	}
+      // Update the surface
+      SDL_UpdateWindowSurface(window);
 
-	//Destroy window
-	SDL_DestroyWindow( window );
+      // Wait two seconds
+      SDL_Delay(2000);
+    }
+  }
 
-	//Quit SDL subsystems
-	SDL_Quit();
+  // Destroy window
+  SDL_DestroyWindow(window);
 
-	return 0;
+  // Quit SDL subsystems
+  SDL_Quit();
+
+  return 0;
 }

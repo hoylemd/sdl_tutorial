@@ -14,9 +14,15 @@ LINKER_FLAGS = -framework SDL2
 #OBJ_NAME specifies the name of our exectuable
 OBJ_NAME = 01_hello_SDL
 
+all: go
+
 #This is the target that compiles our executable
-all : $(OBJS)
+compile : $(OBJS)
 	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
+
+go: compile
+	./$(OBJ_NAME)
+
 
 clean:
 	rm a.out *.o $(OBJ_NAME)
