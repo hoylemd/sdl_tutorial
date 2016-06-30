@@ -28,7 +28,7 @@ bool init() {
   return result;
 }
 
-bool load_media() {
+bool load_assets() {
   bool result = true;
 
   char path[] = "assets/hi.bmp";
@@ -53,22 +53,18 @@ void close() {
 }
 
 int main(int argc, char* args[]) {
-  if (init()) {
-    // Get window surface
+  if (!init()) {
+    printf("Startup failed. Exiting.\n");
+  } else {
+    if (!load_assets()) {
+      printf("Asset loading failed. Exiting\n");
+    } else {
+      SDL_BlitSurface(g_hello_world, NULL, g_screen_surface, NULL);
+      SDL_UpdateWindowSurface(g_window);
 
-    // Fill the surface white
-    SDL_FillRect(g_screen_surface,
-                 NULL,
-                 SDL_MapRGB(g_screen_surface->format, 0xFF, 0xFF, 0xFF));
-
-    // Update the surface
-    SDL_UpdateWindowSurface(g_window);
-
-    // Wait for time
-    SDL_Delay(666);
-
-    // Destroy window
-    SDL_DestroyWindow(g_window);
+      // Wait for time
+      SDL_Delay(666);
+    }
   }
 
   // Quit SDL subsystems
