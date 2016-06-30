@@ -52,6 +52,27 @@ void close() {
   SDL_Quit();
 }
 
+void main_loop() {
+  bool quit = false;
+  SDL_Event event;
+
+  float frame_duration = 1.0 / 60.0;
+
+  while (!quit) {
+    // handle events
+    while (SDL_PollEvent(&event) != 0) {
+      if (event.type == SDL_QUIT) {
+        quit = true;
+      }
+    }
+    SDL_BlitSurface(g_hello_world, NULL, g_screen_surface, NULL);
+    SDL_UpdateWindowSurface(g_window);
+
+    // Wait for time
+    SDL_Delay(frame_duration);
+  }
+}
+
 int main(int argc, char* args[]) {
   if (!init()) {
     printf("Startup failed. Exiting.\n");
@@ -59,11 +80,7 @@ int main(int argc, char* args[]) {
     if (!load_assets()) {
       printf("Asset loading failed. Exiting\n");
     } else {
-      SDL_BlitSurface(g_hello_world, NULL, g_screen_surface, NULL);
-      SDL_UpdateWindowSurface(g_window);
-
-      // Wait for time
-      SDL_Delay(666);
+      main_loop();
     }
   }
 
