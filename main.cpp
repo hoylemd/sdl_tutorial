@@ -11,7 +11,16 @@ bool init() {
     printf("SDL initialization failure: %s\n", SDL_GetError());
     result = false;
   } else {
-    // Create the window
+    g_window = SDL_CreateWindow("SDL Tutorial",
+                                SDL_WINDOWPOS_UNDEFINED,
+                                SDL_WINDOWPOS_UNDEFINED,
+                                SCREEN_WIDTH,
+                                SCREEN_HEIGHT,
+                                SDL_WINDOW_SHOWN);
+    if (g_window == NULL) {
+      printf("Window creation failure: %s\n", SDL_GetError());
+      result = false;
+    }
   }
 
   return result;
@@ -27,30 +36,19 @@ void close() {
 
 int main(int argc, char* args[]) {
   if (init()) {
-    // Create window
-    g_window = SDL_CreateWindow("SDL Tutorial",
-                                SDL_WINDOWPOS_UNDEFINED,
-                                SDL_WINDOWPOS_UNDEFINED,
-                                SCREEN_WIDTH,
-                                SCREEN_HEIGHT,
-                                SDL_WINDOW_SHOWN);
-    if (g_window == NULL) {
-      printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-    } else {
-      // Get window surface
-      g_screen_surface = SDL_GetWindowSurface(g_window);
+    // Get window surface
+    g_screen_surface = SDL_GetWindowSurface(g_window);
 
-      // Fill the surface white
-      SDL_FillRect(g_screen_surface,
-                   NULL,
-                   SDL_MapRGB(g_screen_surface->format, 0xFF, 0xFF, 0xFF));
+    // Fill the surface white
+    SDL_FillRect(g_screen_surface,
+                 NULL,
+                 SDL_MapRGB(g_screen_surface->format, 0xFF, 0xFF, 0xFF));
 
-      // Update the surface
-      SDL_UpdateWindowSurface(g_window);
+    // Update the surface
+    SDL_UpdateWindowSurface(g_window);
 
-      // Wait two seconds
-      SDL_Delay(2000);
-    }
+    // Wait for time
+    SDL_Delay(666);
 
     // Destroy window
     SDL_DestroyWindow(g_window);
