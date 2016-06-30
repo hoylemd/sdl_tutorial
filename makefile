@@ -12,7 +12,7 @@ CC = g++
 LINKER_FLAGS = -framework SDL2
 
 #OBJ_NAME specifies the name of our exectuable
-OBJ_NAME = 01_hello_SDL
+OBJ_NAME = sdl_is_go
 
 all: go
 
