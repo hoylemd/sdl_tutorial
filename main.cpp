@@ -29,7 +29,17 @@ bool init() {
 }
 
 bool load_media() {
-  return true;
+  bool result = true;
+
+  char path[] = "assets/hi.bmp";
+
+  g_hello_world = SDL_LoadBMP(path);
+  if (g_hello_world == NULL) {
+    printf("BMP load failure: path: %s\n  error: %s", path, SDL_GetError());
+    result = false;
+  }
+
+  return result;
 }
 
 void close() {
