@@ -38,7 +38,8 @@ bool load_assets() {
 
   g_hello_world = SDL_LoadBMP(path);
   if (g_hello_world == NULL) {
-    printf("BMP load failure: path: %s\n  error: %s", path, SDL_GetError());
+    cerr << "BMP load failure: path: " << path << "\n";
+    cerr << "  error: " << SDL_GetError();
     result = false;
   }
 
@@ -81,10 +82,10 @@ int main(int argc, char* args[]) {
 
   game = init();
   if (!game) {
-    printf("Startup failed. Exiting.\n");
+    cerr << "Startup failed. Exiting.\n";
   } else {
     if (!load_assets()) {
-      printf("Asset loading failed. Exiting\n");
+      cerr << "Asset loading failed. Exiting\n";
     } else {
       main_loop();
     }
