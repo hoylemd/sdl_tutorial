@@ -14,6 +14,10 @@ struct game_data {
   SDL_Surface* hello_image;
 };
 
+// asset management
+SDL_Surface* load_image(string path);
+
+// main game functions
 game_data* init();
 bool load_assets(game_data* game);
 game_data* close();

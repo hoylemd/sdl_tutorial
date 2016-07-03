@@ -1,5 +1,17 @@
 #include "main.h"
 
+SDL_Surface* load_image(const char* path) {
+  SDL_Surface* image = SDL_LoadBMP(path);
+
+  if (image == NULL) {
+    cerr << "load image failure: path: " << path << "\n";
+    cerr << "  error: " << SDL_GetError();
+    image = NULL;
+  }
+
+  return image;
+}
+
 game_data* init() {
   game_data * game = NULL;
 
@@ -35,13 +47,10 @@ game_data* init() {
 
 bool load_assets(game_data* game) {
   bool result = true;
-
   char path[] = "assets/hi.bmp";
 
-  game->hello_image = SDL_LoadBMP(path);
+  game->hello_image = load_image(path);
   if (game->hello_image == NULL) {
-    cerr << "BMP load failure: path: " << path << "\n";
-    cerr << "  error: " << SDL_GetError();
     result = false;
   }
 
