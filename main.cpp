@@ -4,7 +4,7 @@ game_data* init() {
   game_data * game = NULL;
 
   // reinitialize globals
-  g_window = NULL;
+  SDL_Window* window = NULL;
   g_screen_surface = NULL;
 
   bool result = true;
@@ -13,18 +13,18 @@ game_data* init() {
     cerr << "SDL initialization failure: " << SDL_GetError() << "\n";
     result = false;
   } else {
-    g_window = SDL_CreateWindow("SDL Tutorial",
-                                SDL_WINDOWPOS_UNDEFINED,
-                                SDL_WINDOWPOS_UNDEFINED,
-                                SCREEN_WIDTH,
-                                SCREEN_HEIGHT,
-                                SDL_WINDOW_SHOWN);
-    if (g_window == NULL) {
+    window = SDL_CreateWindow("SDL Tutorial",
+                              SDL_WINDOWPOS_UNDEFINED,
+                              SDL_WINDOWPOS_UNDEFINED,
+                              SCREEN_WIDTH,
+                              SCREEN_HEIGHT,
+                              SDL_WINDOW_SHOWN);
+    if (window == NULL) {
       cerr << "Window creation failure: " << SDL_GetError() << "\n";
     } else {
-      g_screen_surface = SDL_GetWindowSurface(g_window);
+      g_screen_surface = SDL_GetWindowSurface(window);
       game = new game_data;
-      game->window = g_window;
+      game->window = window;
     }
   }
 

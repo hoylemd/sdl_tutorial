@@ -7,11 +7,10 @@ using namespace std;
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-// GLOBAL VARIABLES I AM LITERAL HITLER AND STALIN
+// Game data struct, replacing globals
 struct game_data {
   SDL_Window* window;
 };
-SDL_Window* g_window = NULL;
 
 //The surface contained by the window
 SDL_Surface* g_screen_surface = NULL;
