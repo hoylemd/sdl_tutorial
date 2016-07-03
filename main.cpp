@@ -46,17 +46,22 @@ bool load_assets() {
   return result;
 }
 
-void close() {
+game_data* close(game_data* game) {
   SDL_FreeSurface(g_hello_world);
   g_hello_world = NULL;
 
-  SDL_DestroyWindow(g_window);
-  g_window = NULL;
+  SDL_DestroyWindow(game->window);
+  game->window = NULL;
 
   SDL_Quit();
+
+  free(game);
+  game = NULL;
+
+  return game;
 }
 
-void main_loop() {
+void main_loop(game_data* game) {
   bool quit = false;
   SDL_Event event;
 
@@ -70,7 +75,7 @@ void main_loop() {
       }
     }
     SDL_BlitSurface(g_hello_world, NULL, g_screen_surface, NULL);
-    SDL_UpdateWindowSurface(g_window);
+    SDL_UpdateWindowSurface(game->window);
 
     // Wait for time
     SDL_Delay(frame_duration);
@@ -87,12 +92,11 @@ int main(int argc, char* args[]) {
     if (!load_assets()) {
       cerr << "Asset loading failed. Exiting\n";
     } else {
-      main_loop();
+      main_loop(game);
     }
   }
 
   // Quit SDL subsystems
-  SDL_Quit();
-
+  game = close(game);
   return 0;
 }

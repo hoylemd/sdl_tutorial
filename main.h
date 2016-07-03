@@ -19,8 +19,8 @@ SDL_Surface* g_screen_surface = NULL;
 //The image we will load and show on the screen
 SDL_Surface* g_hello_world = NULL;
 
-game_data*init();
+game_data* init();
 bool load_assets();
-void close();
+game_data* close();
 
 int main(int argc, char* args[]);
