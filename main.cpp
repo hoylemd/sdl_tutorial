@@ -1,6 +1,8 @@
 #include "main.h"
 
-bool init() {
+game_data* init() {
+  game_data * game = NULL;
+
   // reinitialize globals
   g_window = NULL;
   g_screen_surface = NULL;
@@ -8,7 +10,7 @@ bool init() {
   bool result = true;
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-    printf("SDL initialization failure: %s\n", SDL_GetError());
+    cerr << "SDL initialization failure: " << SDL_GetError() << "\n";
     result = false;
   } else {
     g_window = SDL_CreateWindow("SDL Tutorial",
@@ -18,14 +20,15 @@ bool init() {
                                 SCREEN_HEIGHT,
                                 SDL_WINDOW_SHOWN);
     if (g_window == NULL) {
-      printf("Window creation failure: %s\n", SDL_GetError());
-      result = false;
+      cerr << "Window creation failure: " << SDL_GetError() << "\n";
     } else {
       g_screen_surface = SDL_GetWindowSurface(g_window);
+      game = new game_data;
+      game->window = g_window;
     }
   }
 
-  return result;
+  return game;
 }
 
 bool load_assets() {
@@ -74,7 +77,10 @@ void main_loop() {
 }
 
 int main(int argc, char* args[]) {
-  if (!init()) {
+  game_data * game = NULL;
+
+  game = init();
+  if (!game) {
     printf("Startup failed. Exiting.\n");
   } else {
     if (!load_assets()) {
