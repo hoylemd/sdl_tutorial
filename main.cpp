@@ -26,19 +26,20 @@ game_data* init() {
       game = new game_data;
       game->window = window;
       game->screen = screen;
+      game->hello_image = NULL;
     }
   }
 
   return game;
 }
 
-bool load_assets() {
+bool load_assets(game_data* game) {
   bool result = true;
 
   char path[] = "assets/hi.bmp";
 
-  g_hello_world = SDL_LoadBMP(path);
-  if (g_hello_world == NULL) {
+  game->hello_image = SDL_LoadBMP(path);
+  if (game->hello_image == NULL) {
     cerr << "BMP load failure: path: " << path << "\n";
     cerr << "  error: " << SDL_GetError();
     result = false;
@@ -48,8 +49,8 @@ bool load_assets() {
 }
 
 game_data* close(game_data* game) {
-  SDL_FreeSurface(g_hello_world);
-  g_hello_world = NULL;
+  SDL_FreeSurface(game->hello_image);
+  game->hello_image = NULL;
 
   SDL_DestroyWindow(game->window);
   game->window = NULL;
@@ -76,7 +77,7 @@ void main_loop(game_data* game) {
         quit = true;
       }
     }
-    SDL_BlitSurface(g_hello_world, NULL, game->screen, NULL);
+    SDL_BlitSurface(game->hello_image, NULL, game->screen, NULL);
     SDL_UpdateWindowSurface(game->window);
 
     // Wait for time
@@ -91,7 +92,7 @@ int main(int argc, char* args[]) {
   if (!game) {
     cerr << "Startup failed. Exiting.\n";
   } else {
-    if (!load_assets()) {
+    if (!load_assets(game)) {
       cerr << "Asset loading failed. Exiting\n";
     } else {
       main_loop(game);

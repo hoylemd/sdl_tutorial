@@ -11,13 +11,11 @@ const int SCREEN_HEIGHT = 480;
 struct game_data {
   SDL_Window* window;
   SDL_Surface* screen;
+  SDL_Surface* hello_image;
 };
 
-//The image we will load and show on the screen
-SDL_Surface* g_hello_world = NULL;
-
 game_data* init();
-bool load_assets();
+bool load_assets(game_data* game);
 game_data* close();
 
 int main(int argc, char* args[]);
