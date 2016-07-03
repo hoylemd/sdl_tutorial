@@ -10,6 +10,7 @@ const int SCREEN_HEIGHT = 480;
 // Game data struct, replacing globals
 struct game_data {
   SDL_Window* window;
+  SDL_Surface* screen;
 };
 
 //The surface contained by the window

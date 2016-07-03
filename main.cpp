@@ -25,6 +25,7 @@ game_data* init() {
       g_screen_surface = SDL_GetWindowSurface(window);
       game = new game_data;
       game->window = window;
+      game->screen = g_screen_surface;
     }
   }
 
@@ -52,6 +53,7 @@ game_data* close(game_data* game) {
 
   SDL_DestroyWindow(game->window);
   game->window = NULL;
+  game->screen = NULL;
 
   SDL_Quit();
 
@@ -74,7 +76,7 @@ void main_loop(game_data* game) {
         quit = true;
       }
     }
-    SDL_BlitSurface(g_hello_world, NULL, g_screen_surface, NULL);
+    SDL_BlitSurface(g_hello_world, NULL, game->screen, NULL);
     SDL_UpdateWindowSurface(game->window);
 
     // Wait for time
