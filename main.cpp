@@ -5,7 +5,7 @@ game_data* init() {
 
   // reinitialize globals
   SDL_Window* window = NULL;
-  g_screen_surface = NULL;
+  SDL_Surface* screen = NULL;
 
   bool result = true;
 
@@ -22,10 +22,10 @@ game_data* init() {
     if (window == NULL) {
       cerr << "Window creation failure: " << SDL_GetError() << "\n";
     } else {
-      g_screen_surface = SDL_GetWindowSurface(window);
+      screen = SDL_GetWindowSurface(window);
       game = new game_data;
       game->window = window;
-      game->screen = g_screen_surface;
+      game->screen = screen;
     }
   }
 

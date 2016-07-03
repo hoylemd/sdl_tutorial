@@ -13,9 +13,6 @@ struct game_data {
   SDL_Surface* screen;
 };
 
-//The surface contained by the window
-SDL_Surface* g_screen_surface = NULL;
-
 //The image we will load and show on the screen
 SDL_Surface* g_hello_world = NULL;
 
