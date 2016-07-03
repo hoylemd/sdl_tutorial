@@ -14,6 +14,16 @@ struct game_data {
   SDL_Surface* hello_image;
 };
 
+enum g_key_press_surfaces {
+  KEY_PRESS_NONE,
+  KEY_PRESS_UP,
+  KEY_PRESS_DOWN,
+  KEY_PRESS_LEFT,
+  KEY_PRESS_RIGHT,
+  KEY_PRESS_CENTER,
+  KEY_PRESS_COUNT
+}
+
 // asset management
 SDL_Surface* load_image(string path);
 
