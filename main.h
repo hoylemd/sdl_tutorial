@@ -12,6 +12,7 @@ struct game_data {
   SDL_Window* window;
   SDL_Surface* screen;
   SDL_Surface* hello_image;
+  SDL_Surface* press_images;
 };
 
 enum g_key_press_surfaces {
@@ -22,7 +23,7 @@ enum g_key_press_surfaces {
   KEY_PRESS_RIGHT,
   KEY_PRESS_CENTER,
   KEY_PRESS_COUNT
-}
+};
 
 // asset management
 SDL_Surface* load_image(string path);
