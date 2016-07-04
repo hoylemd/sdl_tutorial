@@ -149,7 +149,14 @@ void main_loop(game_data* game) {
         }
       }
     }
-    SDL_BlitSurface(current_image, NULL, game->screen, NULL);
+    SDL_Rect stretch_rectangle;
+    stretch_rectangle.x = 0;
+    stretch_rectangle.y = 0;
+    stretch_rectangle.w = SCREEN_WIDTH;
+    stretch_rectangle.h = SCREEN_HEIGHT;
+
+    SDL_BlitScaled(current_image, NULL, game->screen, &stretch_rectangle);
+
     SDL_UpdateWindowSurface(game->window);
 
     // Wait for time
