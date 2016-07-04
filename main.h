@@ -11,7 +11,6 @@ const int SCREEN_HEIGHT = 480;
 struct game_data {
   SDL_Window* window;
   SDL_Surface* screen;
-  SDL_Surface* hello_image;
   SDL_Surface** press_images;
 };
 

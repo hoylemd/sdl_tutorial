@@ -23,18 +23,12 @@ game_data* init() {
   game = new game_data;
   game->window = NULL;
   game->screen = NULL;
-  game->hello_image = NULL;
 
   return game;
 }
 
 bool load_assets(game_data* game) {
   bool result = true;
-  char path[] = "assets/hi.bmp";
-
-  if (!(game->hello_image = load_image(path))) {
-    result = false;
-  }
 
   // load key images
   int size = sizeof(SDL_Surface*);
@@ -83,9 +77,6 @@ bool prime_canvass(game_data* game) {
 
 game_data* close(game_data* game) {
   int i = 0;
-
-  SDL_FreeSurface(game->hello_image);
-  game->hello_image = NULL;
 
   for (i = 0; i < KEY_PRESS_COUNT; i += 1) {
     SDL_FreeSurface(game->press_images[i]);
