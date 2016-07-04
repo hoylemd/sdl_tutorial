@@ -1,7 +1,8 @@
 #include "main.h"
 
-SDL_Surface* load_image(const char* path) {
-  SDL_Surface* image = SDL_LoadBMP(path);
+SDL_Surface* load_image(string path) {
+  SDL_Surface* optimized_image = NULL;
+  SDL_Surface* image = SDL_LoadBMP(path.c_str());
 
   if (image == NULL) {
     cerr << "load image failure: path: " << path << "\n";
