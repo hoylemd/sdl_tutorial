@@ -5,7 +5,7 @@ SDL_Surface* load_image(const char* path) {
 
   if (image == NULL) {
     cerr << "load image failure: path: " << path << "\n";
-    cerr << "  error: " << SDL_GetError();
+    cerr << "  error: " << SDL_GetError() << "\n";
     image = NULL;
   }
 
@@ -46,15 +46,12 @@ game_data* init() {
 }
 
 bool load_assets(game_data* game) {
-  bool result = true;
-  char path[] = "assets/hi.bmp";
+  char path[] = "assets/hio.bmp";
 
-  game->hello_image = load_image(path);
-  if (game->hello_image == NULL) {
-    result = false;
+  if (!(game->hello_image = load_image(path))) {
+    return false;
   }
-
-  return result;
+  return true;
 }
 
 game_data* close(game_data* game) {
