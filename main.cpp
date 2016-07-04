@@ -108,6 +108,7 @@ game_data* close(game_data* game) {
 void main_loop(game_data* game) {
   bool quit = false;
   SDL_Event event;
+  int current_image = KEY_PRESS_NONE;
 
   float frame_duration = 1.0 / 60.0;
 
@@ -116,9 +117,26 @@ void main_loop(game_data* game) {
     while (SDL_PollEvent(&event) != 0) {
       if (event.type == SDL_QUIT) {
         quit = true;
+      } else if (event.type == SDL_KEYDOWN) {
+        switch (event.key.keysym.sym) {
+          case SDLK_UP:
+            current_image = KEY_PRESS_UP;
+            break;
+          case SDLK_DOWN:
+            current_image = KEY_PRESS_DOWN;
+            break;
+          case SDLK_LEFT:
+            current_image = KEY_PRESS_LEFT;
+            break;
+          case SDLK_RIGHT:
+            current_image = KEY_PRESS_RIGHT;
+            break;
+          default:
+            current_image = KEY_PRESS_NONE;
+        }
       }
     }
-    SDL_BlitSurface(game->hello_image, NULL, game->screen, NULL);
+    SDL_BlitSurface(game->press_images[current_image], NULL, game->screen, NULL);
     SDL_UpdateWindowSurface(game->window);
 
     // Wait for time
