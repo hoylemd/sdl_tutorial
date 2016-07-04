@@ -38,12 +38,11 @@ game_data* init() {
 bool load_assets(game_data* game) {
   bool result = true;
 
-  // load key images
   int size = sizeof(SDL_Surface*);
-  game->press_images = (SDL_Surface**) malloc(size * KEY_PRESS_COUNT);
-
-  SDL_Surface ** key_images = game->press_images;
   SDL_PixelFormat* format = game->screen->format;
+
+  // load key images
+  SDL_Surface ** key_images = (SDL_Surface**) malloc(size * KEY_PRESS_COUNT);
 
   if(!(key_images[KEY_PRESS_NONE] = load_image("assets/none.bmp", format))) {
     result = false;
@@ -58,6 +57,12 @@ bool load_assets(game_data* game) {
     result = false;
   }
   if(!(key_images[KEY_PRESS_RIGHT] = load_image("assets/right.bmp", format))) {
+    result = false;
+  }
+  game->press_images = key_images;
+
+  // load stretch image
+  if(!(game->stretch_image = load_image("assets/stretch.bmp", format))) {
     result = false;
   }
 
@@ -93,6 +98,10 @@ game_data* close(game_data* game) {
     game->press_images[i] = NULL;
   }
   free(game->press_images);
+  game->press_images = NULL;
+
+  SDL_FreeSurface(game->stretch_image);
+  game->stretch_image = NULL;
 
   SDL_DestroyWindow(game->window);
   game->window = NULL;
@@ -109,7 +118,7 @@ game_data* close(game_data* game) {
 void main_loop(game_data* game) {
   bool quit = false;
   SDL_Event event;
-  int current_image = KEY_PRESS_NONE;
+  SDL_Surface* current_image = game->stretch_image;
 
   float frame_duration = 1.0 / 60.0;
 
@@ -121,23 +130,26 @@ void main_loop(game_data* game) {
       } else if (event.type == SDL_KEYDOWN) {
         switch (event.key.keysym.sym) {
           case SDLK_UP:
-            current_image = KEY_PRESS_UP;
+            current_image = game->press_images[KEY_PRESS_UP];
             break;
           case SDLK_DOWN:
-            current_image = KEY_PRESS_DOWN;
+            current_image = game->press_images[KEY_PRESS_DOWN];
             break;
           case SDLK_LEFT:
-            current_image = KEY_PRESS_LEFT;
+            current_image = game->press_images[KEY_PRESS_LEFT];
             break;
           case SDLK_RIGHT:
-            current_image = KEY_PRESS_RIGHT;
+            current_image = game->press_images[KEY_PRESS_RIGHT];
+            break;
+          case SDLK_s:
+            current_image = game->stretch_image;
             break;
           default:
-            current_image = KEY_PRESS_NONE;
+            current_image = game->press_images[KEY_PRESS_NONE];
         }
       }
     }
-    SDL_BlitSurface(game->press_images[current_image], NULL, game->screen, NULL);
+    SDL_BlitSurface(current_image, NULL, game->screen, NULL);
     SDL_UpdateWindowSurface(game->window);
 
     // Wait for time

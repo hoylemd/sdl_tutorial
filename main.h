@@ -12,6 +12,7 @@ struct game_data {
   SDL_Window* window;
   SDL_Surface* screen;
   SDL_Surface** press_images;
+  SDL_Surface* stretch_image;
 };
 
 enum g_key_press_surfaces {
