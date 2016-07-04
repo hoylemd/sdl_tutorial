@@ -29,12 +29,35 @@ game_data* init() {
 }
 
 bool load_assets(game_data* game) {
+  bool result = true;
   char path[] = "assets/hi.bmp";
 
   if (!(game->hello_image = load_image(path))) {
-    return false;
+    result = false;
   }
-  return true;
+
+  // load key images
+  int size = sizeof(SDL_Surface*);
+  game->press_images = (SDL_Surface**) malloc(size * KEY_PRESS_COUNT);
+  SDL_Surface ** press_images = game->press_images;
+
+  if(!(press_images[KEY_PRESS_NONE] = load_image("assets/none.bmp"))) {
+    result = false;
+  }
+  if(!(press_images[KEY_PRESS_UP] = load_image("assets/up.bmp"))) {
+    result = false;
+  }
+  if(!(press_images[KEY_PRESS_DOWN] = load_image("assets/down.bmp"))) {
+    result = false;
+  }
+  if(!(press_images[KEY_PRESS_LEFT] = load_image("assets/left.bmp"))) {
+    result = false;
+  }
+  if(!(press_images[KEY_PRESS_RIGHT] = load_image("assets/right.bmp"))) {
+    result = false;
+  }
+
+  return result;
 }
 
 bool prime_canvass(game_data* game) {
@@ -59,8 +82,16 @@ bool prime_canvass(game_data* game) {
 }
 
 game_data* close(game_data* game) {
+  int i = 0;
+
   SDL_FreeSurface(game->hello_image);
   game->hello_image = NULL;
+
+  for (i = 0; i < KEY_PRESS_COUNT; i += 1) {
+    SDL_FreeSurface(game->press_images[i]);
+    game->press_images[i] = NULL;
+  }
+  free(game->press_images);
 
   SDL_DestroyWindow(game->window);
   game->window = NULL;
