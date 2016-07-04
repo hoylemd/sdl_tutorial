@@ -1,16 +1,23 @@
 #include "main.h"
 
-SDL_Surface* load_image(string path) {
+SDL_Surface* load_image(string path, SDL_PixelFormat* format) {
   SDL_Surface* optimized_image = NULL;
   SDL_Surface* image = SDL_LoadBMP(path.c_str());
 
   if (image == NULL) {
     cerr << "load image failure: path: " << path << "\n";
     cerr << "  error: " << SDL_GetError() << "\n";
-    image = NULL;
+    return NULL;
+  }
+  optimized_image = SDL_ConvertSurface(image, format, 0);
+  if (optimized_image == NULL) {
+    cerr << "image optimization failure: path:" << path << "\n";
+    cerr << "  error: " << SDL_GetError() << "\n";
   }
 
-  return image;
+  SDL_FreeSurface(image);
+
+  return optimized_image;
 }
 
 game_data* init() {
@@ -34,21 +41,23 @@ bool load_assets(game_data* game) {
   // load key images
   int size = sizeof(SDL_Surface*);
   game->press_images = (SDL_Surface**) malloc(size * KEY_PRESS_COUNT);
-  SDL_Surface ** press_images = game->press_images;
 
-  if(!(press_images[KEY_PRESS_NONE] = load_image("assets/none.bmp"))) {
+  SDL_Surface ** key_images = game->press_images;
+  SDL_PixelFormat* format = game->screen->format;
+
+  if(!(key_images[KEY_PRESS_NONE] = load_image("assets/none.bmp", format))) {
     result = false;
   }
-  if(!(press_images[KEY_PRESS_UP] = load_image("assets/up.bmp"))) {
+  if(!(key_images[KEY_PRESS_UP] = load_image("assets/up.bmp", format))) {
     result = false;
   }
-  if(!(press_images[KEY_PRESS_DOWN] = load_image("assets/down.bmp"))) {
+  if(!(key_images[KEY_PRESS_DOWN] = load_image("assets/down.bmp", format))) {
     result = false;
   }
-  if(!(press_images[KEY_PRESS_LEFT] = load_image("assets/left.bmp"))) {
+  if(!(key_images[KEY_PRESS_LEFT] = load_image("assets/left.bmp", format))) {
     result = false;
   }
-  if(!(press_images[KEY_PRESS_RIGHT] = load_image("assets/right.bmp"))) {
+  if(!(key_images[KEY_PRESS_RIGHT] = load_image("assets/right.bmp", format))) {
     result = false;
   }
 
@@ -143,11 +152,11 @@ int main(int argc, char* args[]) {
   if (!game) {
     cerr << "Startup failed. Exiting.\n";
   } else {
-    if (!load_assets(game)) {
-      cerr << "Asset loading failed. Exiting\n";
+    if (!prime_canvass(game)) {
+      cerr << "Priming canvass failed. Exiting\n";
     } else {
-      if (!prime_canvass(game)) {
-        cerr << "Priming canvass failed. Exiting\n";
+      if (!load_assets(game)) {
+        cerr << "Asset loading failed. Exiting\n";
       } else {
         main_loop(game);
       }
