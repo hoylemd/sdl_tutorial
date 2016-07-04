@@ -12,7 +12,7 @@ DEBUG_FLAGS = $(COMPILER_FLAGS) -g -o0
 
 #
 #  #LINKER_FLAGS specifies the libraries we're linking against
-LINKER_FLAGS = -framework SDL2
+LINKER_FLAGS = -framework SDL2 -framework SDL2_image
 
 #OBJ_NAME specifies the name of our exectuable
 OBJ_NAME = sdl_is_go
