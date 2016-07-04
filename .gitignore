@@ -2,3 +2,4 @@
 
 sdl_is_go
 *.dSYM
+.DS_Store
