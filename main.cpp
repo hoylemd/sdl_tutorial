@@ -15,42 +15,46 @@ SDL_Surface* load_image(const char* path) {
 game_data* init() {
   game_data * game = NULL;
 
-  // reinitialize globals
-  SDL_Window* window = NULL;
-  SDL_Surface* screen = NULL;
-
-  bool result = true;
-
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     cerr << "SDL initialization failure: " << SDL_GetError() << "\n";
-    result = false;
-  } else {
-    window = SDL_CreateWindow("SDL Tutorial",
-                              SDL_WINDOWPOS_UNDEFINED,
-                              SDL_WINDOWPOS_UNDEFINED,
-                              SCREEN_WIDTH,
-                              SCREEN_HEIGHT,
-                              SDL_WINDOW_SHOWN);
-    if (window == NULL) {
-      cerr << "Window creation failure: " << SDL_GetError() << "\n";
-    } else {
-      screen = SDL_GetWindowSurface(window);
-      game = new game_data;
-      game->window = window;
-      game->screen = screen;
-      game->hello_image = NULL;
-    }
+    return NULL;
   }
+
+  game = new game_data;
+  game->window = NULL;
+  game->screen = NULL;
+  game->hello_image = NULL;
 
   return game;
 }
 
 bool load_assets(game_data* game) {
-  char path[] = "assets/hio.bmp";
+  char path[] = "assets/hi.bmp";
 
   if (!(game->hello_image = load_image(path))) {
     return false;
   }
+  return true;
+}
+
+bool prime_canvass(game_data* game) {
+
+  SDL_Surface* screen = NULL;
+  SDL_Window* window = SDL_CreateWindow("SDL Tutorial",
+                                        SDL_WINDOWPOS_UNDEFINED,
+                                        SDL_WINDOWPOS_UNDEFINED,
+                                        SCREEN_WIDTH,
+                                        SCREEN_HEIGHT,
+                                        SDL_WINDOW_SHOWN);
+  if (window == NULL) {
+    cerr << "Window creation failure: " << SDL_GetError() << "\n";
+    return false;
+  }
+
+  screen = SDL_GetWindowSurface(window);
+  game->window = window;
+  game->screen = screen;
+
   return true;
 }
 
@@ -101,7 +105,11 @@ int main(int argc, char* args[]) {
     if (!load_assets(game)) {
       cerr << "Asset loading failed. Exiting\n";
     } else {
-      main_loop(game);
+      if (!prime_canvass(game)) {
+        cerr << "Priming canvass failed. Exiting\n";
+      } else {
+        main_loop(game);
+      }
     }
   }
 
