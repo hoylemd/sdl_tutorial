@@ -1,3 +1,4 @@
 *.o
 
 sdl_is_go
+*.dSYM
