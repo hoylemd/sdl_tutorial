@@ -31,7 +31,6 @@ SDL_Surface* load_image(string path);
 // main game functions
 game_data* init();
 bool load_assets(game_data* game);
-bool prime_canvass(game_data* game);
 game_data* close();
 
 int main(int argc, char* args[]);

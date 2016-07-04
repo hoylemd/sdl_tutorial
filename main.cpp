@@ -28,9 +28,23 @@ game_data* init() {
     return NULL;
   }
 
+  SDL_Window* window = SDL_CreateWindow("SDL Tutorial",
+                                        SDL_WINDOWPOS_UNDEFINED,
+                                        SDL_WINDOWPOS_UNDEFINED,
+                                        SCREEN_WIDTH,
+                                        SCREEN_HEIGHT,
+                                        SDL_WINDOW_SHOWN);
+  if (window == NULL) {
+    cerr << "Window creation failure: " << SDL_GetError() << "\n";
+    return NULL;
+  }
+
   game = new game_data;
-  game->window = NULL;
-  game->screen = NULL;
+  game->window = window;
+  game->screen = SDL_GetWindowSurface(window);
+
+  game->press_images = NULL;
+  game->stretch_image = NULL;
 
   return game;
 }
@@ -67,27 +81,6 @@ bool load_assets(game_data* game) {
   }
 
   return result;
-}
-
-bool prime_canvass(game_data* game) {
-
-  SDL_Surface* screen = NULL;
-  SDL_Window* window = SDL_CreateWindow("SDL Tutorial",
-                                        SDL_WINDOWPOS_UNDEFINED,
-                                        SDL_WINDOWPOS_UNDEFINED,
-                                        SCREEN_WIDTH,
-                                        SCREEN_HEIGHT,
-                                        SDL_WINDOW_SHOWN);
-  if (window == NULL) {
-    cerr << "Window creation failure: " << SDL_GetError() << "\n";
-    return false;
-  }
-
-  screen = SDL_GetWindowSurface(window);
-  game->window = window;
-  game->screen = screen;
-
-  return true;
 }
 
 game_data* close(game_data* game) {
@@ -171,14 +164,10 @@ int main(int argc, char* args[]) {
   if (!game) {
     cerr << "Startup failed. Exiting.\n";
   } else {
-    if (!prime_canvass(game)) {
-      cerr << "Priming canvass failed. Exiting\n";
+    if (!load_assets(game)) {
+      cerr << "Asset loading failed. Exiting\n";
     } else {
-      if (!load_assets(game)) {
-        cerr << "Asset loading failed. Exiting\n";
-      } else {
-        main_loop(game);
-      }
+      main_loop(game);
     }
   }
 
