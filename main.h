@@ -21,7 +21,6 @@ enum g_key_press_surfaces {
   KEY_PRESS_DOWN,
   KEY_PRESS_LEFT,
   KEY_PRESS_RIGHT,
-  KEY_PRESS_CENTER,
   KEY_PRESS_COUNT
 };
 
