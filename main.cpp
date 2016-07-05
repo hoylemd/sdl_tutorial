@@ -70,6 +70,11 @@ bool load_assets(game_data* game) {
     result = false;
   }
 
+  // load png image
+  if (!(game->png_image = load_png("assets/loaded.png"))) {
+    result = false;
+  }
+
   return result;
 }
 
@@ -85,6 +90,9 @@ game_data* close(game_data* game) {
 
   SDL_FreeSurface(game->stretch_image);
   game->stretch_image = NULL;
+
+  SDL_FreeSurface(game->png_image);
+  game->png_image = NULL;
 
   SDL_DestroyWindow(game->window);
   game->window = NULL;
@@ -127,6 +135,9 @@ void main_loop(game_data* game) {
             break;
           case SDLK_s:
             current_image = game->stretch_image;
+            break;
+          case SDLK_p:
+            current_image = game->png_image;
             break;
           default:
             current_image = game->press_images[KEY_PRESS_NONE];
