@@ -26,7 +26,7 @@ enum g_key_press_surfaces {
 };
 
 // asset management
-SDL_PixelFormat* g_default_sdl_pixelformat;
+extern SDL_PixelFormat* g_default_sdl_pixelformat;
 SDL_Surface* load_bmp(string path);
 SDL_Surface* load_bmp(string path, SDL_PixelFormat* format);
 
