@@ -21,8 +21,6 @@ SDL_Surface* load_image(string path, SDL_PixelFormat* format) {
 }
 
 game_data* init() {
-  game_data * game = NULL;
-
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     cerr << "SDL initialization failure: " << SDL_GetError() << "\n";
     return NULL;
@@ -39,7 +37,18 @@ game_data* init() {
     return NULL;
   }
 
-  game = new game_data;
+  int pngFlags = IMG_INIT_PNG;
+  if (!(IMG_Init(pngFlags) & pngFlags)) {
+    cerr << "SDL image initialization failure: " <<IMG_GetError() << "\n";
+
+    SDL_DestroyWindow(window);
+    window = NULL;
+
+    SDL_Quit();
+    return NULL;
+  }
+
+  game_data* game = new game_data;
   game->window = window;
   game->screen = SDL_GetWindowSurface(window);
 
@@ -100,6 +109,7 @@ game_data* close(game_data* game) {
   game->window = NULL;
   game->screen = NULL;
 
+  IMG_Quit();
   SDL_Quit();
 
   free(game);
