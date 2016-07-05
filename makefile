@@ -19,7 +19,7 @@ all: go
 main.o: main.cpp main.h
 	$(CC) main.cpp $(COMPILER_FLAGS) -o main.o
 
-assets.o: assets.cpp main.h
+assets.o: assets.cpp assets.h
 	$(CC) assets.cpp $(COMPILER_FLAGS) -o assets.o
 
 compile : $(OBJS)

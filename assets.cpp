@@ -1,4 +1,4 @@
-#include "main.h"
+#include "assets.h"
 
 SDL_PixelFormat* g_default_sdl_pixelformat = NULL;
 

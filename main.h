@@ -1,7 +1,9 @@
+#include <iostream>
+
 #include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
-#include <iostream>
-#include <stdio.h>
+
+#include "assets.h"
 
 using namespace std;
 
@@ -24,11 +26,6 @@ enum g_key_press_surfaces {
   KEY_PRESS_RIGHT,
   KEY_PRESS_COUNT
 };
-
-// asset management
-extern SDL_PixelFormat* g_default_sdl_pixelformat;
-SDL_Surface* load_bmp(string path);
-SDL_Surface* load_bmp(string path, SDL_PixelFormat* format);
 
 // main game functions
 game_data* init();
