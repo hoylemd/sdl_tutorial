@@ -14,4 +14,7 @@ SDL_Surface* load_bmp(string path, SDL_PixelFormat* format);
 SDL_Surface* load_png(string path);
 SDL_Surface* load_png(string path, SDL_PixelFormat* format);
 
+SDL_Texture* load_texture(string path, SDL_PixelFormat* format);
+SDL_Texture* load_texture(string path);
+
 #endif // ASSETS_H

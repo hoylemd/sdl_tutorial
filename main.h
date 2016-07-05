@@ -12,8 +12,12 @@ const int SCREEN_HEIGHT = 480;
 
 // Game data struct, replacing globals
 struct game_data {
+  // graphics handles
   SDL_Window* window;
   SDL_Surface* screen;
+  SDL_Renderer* renderer;
+
+  // assets
   SDL_Surface** press_images;
   SDL_Surface* stretch_image;
   SDL_Surface* png_image;

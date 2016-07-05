@@ -50,4 +50,11 @@ SDL_Surface* load_png(string path) {
   return load_png(path, g_default_sdl_pixelformat);
 }
 
+SDL_Texture* load_texture(string path, SDL_PixelFormat* format) {
+  return NULL;
+}
+
+SDL_Texture* load_texture(string path) {
+  return NULL;
+}
 
