@@ -1,6 +1,6 @@
 #include "main.h"
 
-SDL_Surface* load_image(string path, SDL_PixelFormat* format) {
+SDL_Surface* load_bmp(string path, SDL_PixelFormat* format) {
   SDL_Surface* optimized_image = NULL;
   SDL_Surface* image = SDL_LoadBMP(path.c_str());
 
@@ -18,6 +18,10 @@ SDL_Surface* load_image(string path, SDL_PixelFormat* format) {
   SDL_FreeSurface(image);
 
   return optimized_image;
+}
+
+SDL_Surface* load_bmp(string path) {
+  return load_bmp(path, g_default_sdl_pixelformat);
 }
 
 game_data* init() {
@@ -51,6 +55,7 @@ game_data* init() {
   game_data* game = new game_data;
   game->window = window;
   game->screen = SDL_GetWindowSurface(window);
+  g_default_sdl_pixelformat = game->screen->format;
 
   game->press_images = NULL;
   game->stretch_image = NULL;
@@ -67,25 +72,25 @@ bool load_assets(game_data* game) {
   // load key images
   SDL_Surface ** key_images = (SDL_Surface**) malloc(size * KEY_PRESS_COUNT);
 
-  if(!(key_images[KEY_PRESS_NONE] = load_image("assets/none.bmp", format))) {
+  if(!(key_images[KEY_PRESS_NONE] = load_bmp("assets/none.bmp"))) {
     result = false;
   }
-  if(!(key_images[KEY_PRESS_UP] = load_image("assets/up.bmp", format))) {
+  if(!(key_images[KEY_PRESS_UP] = load_bmp("assets/up.bmp"))) {
     result = false;
   }
-  if(!(key_images[KEY_PRESS_DOWN] = load_image("assets/down.bmp", format))) {
+  if(!(key_images[KEY_PRESS_DOWN] = load_bmp("assets/down.bmp"))) {
     result = false;
   }
-  if(!(key_images[KEY_PRESS_LEFT] = load_image("assets/left.bmp", format))) {
+  if(!(key_images[KEY_PRESS_LEFT] = load_bmp("assets/left.bmp"))) {
     result = false;
   }
-  if(!(key_images[KEY_PRESS_RIGHT] = load_image("assets/right.bmp", format))) {
+  if(!(key_images[KEY_PRESS_RIGHT] = load_bmp("assets/right.bmp"))) {
     result = false;
   }
   game->press_images = key_images;
 
   // load stretch image
-  if(!(game->stretch_image = load_image("assets/stretch.bmp", format))) {
+  if(!(game->stretch_image = load_bmp("assets/stretch.bmp"))) {
     result = false;
   }
 
